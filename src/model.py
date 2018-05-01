@@ -52,8 +52,8 @@ class LSTMClassifier(BaseEstimator, ClassifierMixin):
     # Output layer
     logits = tf.layers.dense(lstm_outputs[-1], n_outputs, name='logits') # select the last time step
     Y_proba = tf.nn.softmax(logits, name='Y_proba')
-    xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)
-    loss = tf.reduce_mean(xentropy, name='loss')
+    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)
+    loss = tf.reduce_mean(cross_entropy, name='loss')
 
     # Optimizer
     optimizer = self.optimizer_class(learning_rate=self.learning_rate)
