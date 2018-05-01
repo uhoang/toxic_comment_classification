@@ -69,7 +69,9 @@ def _get_embedding_matrix(vocab,
   
   # read the GloVe word vectors (space delimited strings) into a dictionary
   def get_coefs(word, *arr): return word, np.asarray(arr, dtype='float32')
-  embedding_index = dict(get_coefs(*o.strip().split()) for o in open(pretrained_word2vec))
+  embedding_index = dict(get_coefs(*o.strip().split()) \
+                        for o in open(pretrained_word2vec))
+  
   word_vec_size = len(embedding_index[list(embedding_index.keys())[0]])
 
   # create embedding matrix, with random initialization for words that are not in GloVe
@@ -103,7 +105,8 @@ if __name__='__main__':
       split_data(df, text='comment_text', target=target, 
                 idt='id', output_path=input_path)
   target = targets[0]
-  files = [os.path.join(input_path, e + '_' + targets[0] + '.csv') for e in ['train', 'valid']]
+  files = [os.path.join(input_path, e + '_' + targets[0] + '.csv') 
+            for e in ['train', 'valid']]
   [train, test] = [pd.read_csv(f) for f in files]
   y_train = train[target]
   y_test = test[target]
